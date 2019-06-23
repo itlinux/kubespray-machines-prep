@@ -1,0 +1,23 @@
+---
+- hosts: node1
+  tasks:
+    - name:  Firewall Rules for Master Nodes
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: true
+        state: enabled
+        immediate: true
+      with_items:
+      - { "6443" }
+      - { "2379-2380" }
+      - { "10250" }
+      - { "10251" }
+      - { "10252" }
+      - { "10255" }
+      tags: master
+
+    - name: Enable Bridge Module
+      shell:  echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+    - name: Enable Forwarding
+      shell: sysctl -w net.ipv4.ip_forward=1
