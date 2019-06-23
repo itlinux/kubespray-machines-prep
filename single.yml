@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Change SELinux
+      include_role:
+        name: change-selinux-mode.yml
+
+    - name: Disable Swap
+      include_role:
+        name: disable-swap.yml 
+
+    - name: Firewall Master
+      include_role:
+        name: firewall-rules.master.yml
+
+    - name: Firewall Workder
+      include_role:
+        name: firewall-rules.master.yml
+
